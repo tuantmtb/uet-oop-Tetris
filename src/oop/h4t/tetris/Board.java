@@ -7,13 +7,13 @@ import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
  * Co chuc nang "undo".
  */
 public class Board {
-    private int width;
-    private int height;
-    private boolean[][] grid;
+    private int width; // độ rộng board
+    private int height; // độ cao board
+    private boolean[][] grid; // mảng lưu tọa độ
     private boolean DEBUG = true;
     boolean committed;
 
-    private boolean[][] grid_backup;
+    private boolean[][] grid_backup; // lưu lại grid
 
     /**
      * Tao ban choi trong voi su cho truoc do cao va rong cua tung block.
@@ -97,14 +97,6 @@ public class Board {
                 maxColumn = 1 + pos;
             }
         }
-
-        // tuan
-//        for (int pos = height - 1; pos <= 0; pos--) {
-//            if (grid[x][pos]) {
-//                return 1 + pos;
-//            }
-//        }
-
         return maxColumn;
     }
 

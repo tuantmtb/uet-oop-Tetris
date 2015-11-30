@@ -114,7 +114,7 @@ public class Piece {
         return false;
     }
 
-    // Tao 7 hinh trong cho troi
+    // Tao 7 hinh trong cho truoc
     public static final String STICK_STR = "0 0	0 1	 0 2  0 3";
     public static final String L1_STR = "0 0	0 1	 0 2  1 0";
     public static final String L2_STR = "0 0	1 0 1 1	 1 2";
@@ -180,7 +180,6 @@ public class Piece {
             while (tok.hasMoreTokens()) {
                 int x = Integer.parseInt(tok.nextToken());
                 int y = Integer.parseInt(tok.nextToken());
-
                 points.add(new TPoint(x, y));
             }
         } catch (NumberFormatException e) {
