@@ -60,7 +60,7 @@ public class JTetris extends JComponent {
     protected int currentY;
     protected boolean moved;    // Kiểm tra pieces đã di chuyển hay chưa
 
-    //nextPiece.
+    //NextPiece.
 
     protected Piece nextPiece;
     // Tạo piece tại tọa độ x,y
@@ -543,8 +543,8 @@ public class JTetris extends JComponent {
     public JComponent createControlPanel() {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-        //Preview nextPiece;
-        nextPiecePanel = new nextPiece(this);
+        //Preview NextPiece;
+        nextPiecePanel = new NextPiece(this);
         panel.add(nextPiecePanel);
         // COUNT
 
