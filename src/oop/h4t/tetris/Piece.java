@@ -1,12 +1,16 @@
 package oop.h4t.tetris;// Piece.java
 
-import java.lang.reflect.Array;
+import java.awt.Color;
 import java.util.*;
+/**
+ * Group 15: H4T
+ * On 30/11/15.
+ */
 
 /**
  * Tao hinh
  * <p>
- * Piece pyra = new Piece(PYRAMID_STR);		// Tao hinh moi
+ * Piece pyra = test Piece(PYRAMID_STR);		// Tao hinh moi
  * int width = pyra.getWidth();			// Lay do rong
  * Piece pyra2 = pyramid.computeNextRotation(); // Quay
  * <p>
@@ -20,6 +24,7 @@ public class Piece {
     private int[] skirt;
     private int width;
     private int height;
+    private int color;
     private Piece next;
 
     static private Piece[] pieces;
@@ -132,6 +137,7 @@ public class Piece {
     public static final int SQUARE = 5;
     public static final int PYRAMID = 6;
 
+
     public static Piece[] getPieces() {
         // lazy evaluation -- create static array if needed
         if (Piece.pieces == null) {
@@ -149,6 +155,51 @@ public class Piece {
 
 
         return Piece.pieces;
+    }
+
+    public int getColor() {
+        if (this.equals(new Piece(STICK_STR))) {
+            return 0;
+        }
+        if (this.equals(new Piece(L1_STR))) {
+            return 1;
+        }
+        if (this.equals(new Piece(L2_STR))) {
+            return 2;
+        }
+        if (this.equals(new Piece(S1_STR))) {
+            return 3;
+        }
+        if (this.equals(new Piece(S2_STR))) {
+            return 4;
+        }
+        if (this.equals(new Piece(SQUARE_STR))) {
+            return 5;
+        }
+        if (this.equals(new Piece(PYRAMID_STR))) {
+            return 6;
+        }
+        return 0;
+    }
+
+    public static Color change(int a) {
+        switch (a) {
+            case 0:
+                return Color.RED;
+            case 1:
+                return Color.BLUE;
+            case 2:
+                return Color.CYAN;
+            case 3:
+                return Color.YELLOW;
+            case 4:
+                return Color.ORANGE;
+            case 5:
+                return Color.GREEN;
+            case 6:
+                return Color.MAGENTA;
+        }
+        return Color.BLACK;
     }
 
     //Quay hinh

@@ -1,6 +1,9 @@
 package oop.h4t.tetris;// Board.java
+/**
+ * Group 15: H4T
+ * On 30/11/15.
+ */
 
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 /**
  * Tao ban choi Tetris, cung cap cac kieu hinh.
@@ -13,7 +16,7 @@ public class Board {
     private boolean DEBUG = true;
     boolean committed;
 
-    private boolean[][] grid_backup; // lưu lại grid
+    private boolean[][] prevGrid; // lưu lại grid
 
     /**
      * Tao ban choi trong voi su cho truoc do cao va rong cua tung block.
@@ -23,7 +26,7 @@ public class Board {
         this.height = height;
         grid = new boolean[width][height];
         committed = true;
-        grid_backup = new boolean[width][height];
+        prevGrid = new boolean[width][height];
     }
 
     /**
@@ -42,7 +45,6 @@ public class Board {
     }
 
     /**
-     * Tra ve gia tri max cua do cao cua cot hien tai. Gia tri bang 0 neu rong.
      * Trả về giá trị max dộ cao của cột hiện tại. Nếu rỗng return 0
      */
     public int getMaxHeight() {
@@ -56,24 +58,21 @@ public class Board {
     }
 
     /**
-     * Cho mot hinh va toa do x, tra ve gia tri toa do y ve cac diem den cua hinh khi cho no roi thang theo truc x.
-     * Cho một hình và tọa độ x
      * Trả về giá trị y về các điểm dến của hình khi nó rơi thẳng theo trục x
-     * Hơi khó hiểu
      */
     public int dropHeight(Piece piece, int x) {
         int[] skirt = piece.getSkirt();
         int result = 0;
         int origY = getColumnHeight(x) + skirt[0];
         int maxStep = 0;
-        int maxColumnHeightWithinSkirt = getColumnHeight(x);
+        int maxColHeight = getColumnHeight(x);
         for (int pos = 1; pos < skirt.length; pos++) {
             int step = skirt[0] - skirt[1];
             if (Math.abs(maxStep) < Math.abs(step)) {
                 maxStep = step;
             }
-            if (maxColumnHeightWithinSkirt < getColumnHeight(x + pos)) {
-                maxColumnHeightWithinSkirt = getColumnHeight(x + pos);
+            if (maxColHeight < getColumnHeight(x + pos)) {
+                maxColHeight = getColumnHeight(x + pos);
             }
         }
         if (maxStep > 0) {
@@ -81,13 +80,12 @@ public class Board {
         } else if (maxStep < 0) {
             result = getColumnHeight(x);
         } else {
-            result = maxColumnHeightWithinSkirt;
+            result = maxColHeight;
         }
         return result;
     }
 
     /**
-     * Tra ve do cao cua cot - gia tri toa do y cua block cao nhat + 1. Gia tri bang 0 neu cot khong co block nao.
      * Trả về độ cao cột - giá trị tọa độ y block cao nhất +1. Trả về 0 nếu không có block nào
      */
     public int getColumnHeight(int x) {
@@ -101,7 +99,6 @@ public class Board {
     }
 
     /**
-     * Tra ve so block trong mot dong cho truoc
      * Trả về số block trong dòng cho trước
      */
     public int getRowWidth(int y) {
@@ -115,8 +112,6 @@ public class Board {
     }
 
     /**
-     * Tra ve true neu block trong ban.
-     * Cac block o ben ngoai ma trong vung do rong/cao phu hop luon tra ve gia tri true
      * Trả về true nếu block trong bảng. Các block bên ngoài luôn trả vè true
      */
     public boolean getGrid(int x, int y) {
@@ -144,7 +139,7 @@ public class Board {
         int result = PLACE_OK;
         committed = false;
         for (int pos = 0; pos < grid.length; pos++) {
-            System.arraycopy(grid[pos], 0, grid_backup[pos], 0, grid[pos].length);
+            System.arraycopy(grid[pos], 0, prevGrid[pos], 0, grid[pos].length);
         }
 
         for (int pos = 0; pos < piece.getBody().length; pos++) {
@@ -175,26 +170,23 @@ public class Board {
         // YOUR CODE HERE
         int maxHeight = getMaxHeight();
 
-        // according to assignment doc, normally, the clear row comes after place.
         if (committed)
-            // if clearRows not invoke after place, we should do backup here.
             for (int i = 0; i < grid.length; i++){
-                System.arraycopy(grid[i], 0, grid_backup[i], 0, grid[i].length);
+                System.arraycopy(grid[i], 0, prevGrid[i], 0, grid[i].length);
             }
         committed = false;
         for (int toIndex = 0; toIndex <= maxHeight; toIndex++) {
             if (width == getRowWidth(toIndex)) {
-                // full-filled
+                // full
                 int fromIndex = toIndex + 1;
                 while (fromIndex <= maxHeight && width == getRowWidth(fromIndex))
                     fromIndex++;
-                // now do copy
+                // copy grid
                 for (int i = 0; i < width; i++) {
                     grid[i][toIndex] = grid[i][fromIndex];
-                    //  make the 'from' row empty
                     grid[i][fromIndex] = false;
                 }
-                // shift the 'from' row up.
+                // đẩy hàng xuống
                 int ceil = maxHeight-rowsCleared;
                 while (fromIndex < ceil) {
                     for (int i=0; i < width; i++) {
@@ -218,8 +210,8 @@ public class Board {
         //Viet code tai day
         if(!committed){
             boolean[][] temp = grid;
-            grid = grid_backup;
-            grid_backup = temp;
+            grid = prevGrid;
+            prevGrid = temp;
             committed = true;
         }
     }
