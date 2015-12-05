@@ -11,7 +11,7 @@ import javax.swing.JPanel;
  * On 30/11/15.
  */
 
-public class nextPiece extends JPanel {
+public class NextPiece extends JPanel {
     int high_score;
     private Piece next;
     private JTetris tetris;
@@ -25,7 +25,7 @@ public class nextPiece extends JPanel {
     private static final int vgap = 2;
 
 
-    public nextPiece(JTetris tetris) {
+    public NextPiece(JTetris tetris) {
         this.high_score = tetris.getHigh_score();
         next = tetris.getNextPiece();
         this.tetris = tetris;
